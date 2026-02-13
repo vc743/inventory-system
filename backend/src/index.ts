@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { AppDataSource } from "./config/database";
+import authRoutes from "./routes/auth.routes";
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ app.get("/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+app.use("/api/auth", authRoutes)
 
 // Inicializar base de datos y servidor
 AppDataSource.initialize()
