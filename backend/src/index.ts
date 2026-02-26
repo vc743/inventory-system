@@ -8,6 +8,10 @@ import categoryRoutes from "./routes/category.routes";
 import productRoutes from "./routes/product.routes";
 import movementRoutes from "./routes/movement.routes";
 import alertRoutes from "./routes/alert.routes";
+import {
+  loggerMiddleware,
+  errorLoggerMiddleware,
+} from "./middleware/logger.middleware";
 
 dotenv.config();
 
@@ -16,6 +20,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(loggerMiddleware);
 
 app.get("/health", (req, res) => {
   res.json({
@@ -30,6 +35,8 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/movements", movementRoutes);
 app.use("/api/alerts", alertRoutes);
+
+app.use(errorLoggerMiddleware);
 
 // Inicializar base de datos y servidor
 AppDataSource.initialize()
