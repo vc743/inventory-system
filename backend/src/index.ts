@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.routes";
 import categoryRoutes from "./routes/category.routes";
 import productRoutes from "./routes/product.routes";
 import movementRoutes from "./routes/movement.routes";
+import alertRoutes from "./routes/alert.routes";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/movements", movementRoutes);
+app.use("/api/alerts", alertRoutes);
 
 // Inicializar base de datos y servidor
 AppDataSource.initialize()
