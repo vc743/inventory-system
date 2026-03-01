@@ -8,10 +8,11 @@ import categoryRoutes from "./routes/category.routes";
 import productRoutes from "./routes/product.routes";
 import movementRoutes from "./routes/movement.routes";
 import alertRoutes from "./routes/alert.routes";
+import reportRoutes from "./routes/report.routes";
 import {
   loggerMiddleware,
   errorLoggerMiddleware,
-} from "./middleware/logger.middleware";
+} from "./middlewares/logger.middleware";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/movements", movementRoutes);
 app.use("/api/alerts", alertRoutes);
+app.use("/api/reports", reportRoutes);
 
 app.use(errorLoggerMiddleware);
 
