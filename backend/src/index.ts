@@ -38,6 +38,14 @@ app.use("/api/movements", movementRoutes);
 app.use("/api/alerts", alertRoutes);
 app.use("/api/reports", reportRoutes);
 
+app.use((req, res) => {
+  res.status(404).json({
+    error: "Endpoint not found",
+    path: req.originalUrl,
+    method: req.method,
+  });
+});
+
 app.use(errorLoggerMiddleware);
 
 // Inicializar base de datos y servidor
