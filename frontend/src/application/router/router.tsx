@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import Login from "@/application/pages/login/Login";
-import Register from "@/application/pages/register/Register";
+import Login from "@/application/pages/auth/login/Login";
+import Register from "@/application/pages/auth/register/Register";
 
 const Router = () => {
 

@@ -8,12 +8,13 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
     "ignoreDeprecations": "6.0",
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "@/application/*": ["application/*"],
-      "@/domain/*": ["domain/*"],
-      "@/infrastructure/*": ["infrastructure/*"],
-      "@/shared/*": ["shared/*"]
+      "@/*": ["./src/*"],
+      // "@/application/*": ["application/*"],
+      // "@/domain/*": ["domain/*"],
+      // "@/infrastructure/*": ["infrastructure/*"],
+      // "@/shared/*": ["shared/*"]
     },
 
     /* Bundler mode */

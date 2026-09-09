@@ -1,9 +1,10 @@
 import { Box, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
+import { Button } from "@/application/components/ui/button";
 
 const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <section className="min-h-screen flex">
@@ -70,20 +71,12 @@ const Login = () => {
               </button>
             </div>
 
-            <button
-              type="submit"
-              className="w-full cursor-pointer h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium bg-blue-500 text-white hover:bg-blue-500/90 focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-            // disabled={isLoading}
+            <Button
+              // type="submit"
+              className="w-full cursor-pointer bg-blue-500 hover:bg-blue-500/90 h-10 font-medium"
             >
-              {/* {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                  Iniciando...
-                </span>
-              ) : ( */}
               Iniciar Sesión
-              {/* )} */}
-            </button>
+            </Button>
           </form>
 
           {/* Register link */}

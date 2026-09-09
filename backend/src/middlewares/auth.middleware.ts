@@ -5,13 +5,13 @@ import jwt from "jsonwebtoken";
 declare global {
   namespace Express {
     interface Request {
-      userId?: string;
+      userId?: number;
     }
   }
 }
 
 interface JwtPayload {
-  userId: string;
+  userId: number;
 }
 
 export const authMiddleware = async (
