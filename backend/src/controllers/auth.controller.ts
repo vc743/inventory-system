@@ -8,10 +8,10 @@ const userRepository = AppDataSource.getRepository(User);
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, fullName } = req.body;
 
     // Validar que los campos existan
-    if (!email || !password || !name) {
+    if (!email || !password || !fullName) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -22,10 +22,10 @@ export const register = async (req: Request, res: Response) => {
     }
 
     // Validar longitud de la contrasena
-    if (password.length < 6) {
+    if (password.length < 8) {
       return res
         .status(400)
-        .json({ error: "Password must be at least 6 characters" });
+        .json({ error: "Password must be at least 8 characters" });
     }
 
     // Verificar si el usuario ya existe
@@ -40,9 +40,9 @@ export const register = async (req: Request, res: Response) => {
 
     // Crear usuario
     const user = userRepository.create({
+      fullName,
       email,
       password: hashedPassword,
-      name,
     });
 
     await userRepository.save(user);
@@ -56,7 +56,7 @@ export const register = async (req: Request, res: Response) => {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
+        fullName: user.fullName,
         createdAt: user.createdAt,
       },
       token,
@@ -99,7 +99,7 @@ export const login = async (req: Request, res: Response) => {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
+        fullName: user.fullName,
       },
       token,
     });
@@ -113,7 +113,7 @@ export const getProfile = async (req: Request, res: Response) => {
   try {
     const user = await userRepository.findOne({
       where: { id: req.userId },
-      select: ["id", "email", "name", "createdAt"],
+      select: ["id", "email", "fullName", "createdAt"],
     });
 
     if (!user) {

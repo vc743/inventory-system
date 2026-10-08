@@ -16,24 +16,23 @@ import {
 } from "@/application/components/ui/field";
 import { Input } from "@/application/components/ui/input";
 import { PasswordInput } from "@/application/components/ui/password-input";
-import { UserPlus } from "lucide-react";
+import { LockKeyhole } from "lucide-react";
 import { Link } from "react-router";
 import {
-  registerFormSchema,
-  type RegisterForm,
+  loginFormSchema,
+  type LoginForm,
 } from "@/infrastructure/schemas/auth/auth";
 
-const RegisterForm = () => {
-  const form = useForm<RegisterForm>({
-    resolver: zodResolver(registerFormSchema),
+const LoginForm = () => {
+  const form = useForm<LoginForm>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      fullName: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: RegisterForm) => {
+  const onSubmit = (data: LoginForm) => {
     console.log({ data });
   };
 
@@ -41,53 +40,32 @@ const RegisterForm = () => {
     <Card className="w-full">
       <CardHeader>
         <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-xl bg-accent">
-          <UserPlus className="h-5 w-5 text-accent-foreground" />
+          <LockKeyhole className="h-5 w-5 text-accent-foreground" />
         </div>
-        <CardTitle className="text-xl">Crear cuenta</CardTitle>
+        <CardTitle className="text-xl">Iniciar sesión</CardTitle>
         <CardDescription>
-          Empieza a gestionar tu inventario en minutos
+          Ingresa tus credenciales para acceder al sistema
         </CardDescription>
       </CardHeader>
 
       <CardContent>
-        <form id="register-form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="login-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
-            {/* Nombre */}
-            <Controller
-              name="fullName"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="register-form-fullName">
-                    Nombre Completo
-                  </FieldLabel>
-                  <Input
-                    {...field}
-                    id="register-form-fullName"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="Ingrese su nombre completo"
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            ></Controller>
-
             {/* Email */}
             <Controller
               name="email"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="register-form-email">Email</FieldLabel>
+                  <FieldLabel htmlFor="login-form-email">
+                    Correo electrónico
+                  </FieldLabel>
                   <Input
                     {...field}
-                    id="register-form-email"
+                    id="login-form-email"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Ingrese su correo electronico"
-                    autoComplete="off"
+                    placeholder="email@ejemplo.com"
+                    autoComplete="email"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -102,15 +80,15 @@ const RegisterForm = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="register-form-password">
+                  <FieldLabel htmlFor="login-form-password">
                     Contraseña
                   </FieldLabel>
                   <PasswordInput
                     {...field}
-                    id="register-form-password"
+                    id="login-form-password"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Ingrese su contraseña"
-                    autoComplete="new-password"
+                    placeholder="••••••••"
+                    autoComplete="current-password"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -121,7 +99,7 @@ const RegisterForm = () => {
 
             <Field>
               <Button type="submit" className="w-full cursor-pointer">
-                Crear cuenta
+                Iniciar sesión
               </Button>
             </Field>
           </FieldGroup>
@@ -129,13 +107,16 @@ const RegisterForm = () => {
       </CardContent>
 
       <p className="px-(--card-spacing) text-center text-sm text-muted-foreground">
-        ¿Ya tienes cuenta?{" "}
-        <Link to="/login" className="font-medium text-brand hover:underline">
-          Inicia sesión
+        ¿No tienes una cuenta?{" "}
+        <Link
+          to="/register"
+          className="font-medium text-brand hover:underline"
+        >
+          Crear cuenta
         </Link>
       </p>
     </Card>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;
