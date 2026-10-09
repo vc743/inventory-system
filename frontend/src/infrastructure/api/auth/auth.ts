@@ -3,13 +3,19 @@ import type {
   LoginForm,
   RegisterForm,
 } from "@/infrastructure/schemas/auth/auth";
+import type { AuthUser } from "@/application/stores/auth.store";
 import { isAxiosError } from "axios";
 
-export const login = async (formdata: LoginForm) => {
+interface AuthResponse {
+  user: AuthUser;
+  token: string;
+}
+
+export const login = async (formdata: LoginForm): Promise<AuthResponse> => {
   try {
     const url = "/auth/login";
 
-    const response = await api.post(url, formdata);
+    const response = await api.post<AuthResponse>(url, formdata);
 
     return response.data;
 
@@ -25,11 +31,13 @@ export const login = async (formdata: LoginForm) => {
   }
 };
 
-export const register = async (formdata: RegisterForm) => {
+export const register = async (
+  formdata: RegisterForm,
+): Promise<AuthResponse> => {
   try {
     const url = "/auth/register";
 
-    const response = await api.post(url, formdata);
+    const response = await api.post<AuthResponse>(url, formdata);
 
     return response.data;
 

@@ -16,14 +16,21 @@ import {
 } from "@/application/components/ui/field";
 import { Input } from "@/application/components/ui/input";
 import { PasswordInput } from "@/application/components/ui/password-input";
-import { UserPlus } from "lucide-react";
-import { Link } from "react-router";
+import { UserPlus, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import {
   registerFormSchema,
   type RegisterForm,
 } from "@/infrastructure/schemas/auth/auth";
+import { register } from "@/infrastructure/api/auth/auth";
+import { useAuthStore } from "@/application/stores/auth.store";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
+  const setAuth = useAuthStore((state) => state.setAuth);
+
   const form = useForm<RegisterForm>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
@@ -33,8 +40,20 @@ const RegisterForm = () => {
     },
   });
 
+  const mutation = useMutation({
+    mutationFn: register,
+    onSuccess: ({ user, token }) => {
+      setAuth(user, token);
+      toast.success(`Cuenta creada. Bienvenido, ${user.fullName}`);
+      navigate("/dashboard");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
   const onSubmit = (data: RegisterForm) => {
-    console.log({ data });
+    mutation.mutate(data);
   };
 
   return (
@@ -120,7 +139,14 @@ const RegisterForm = () => {
             ></Controller>
 
             <Field>
-              <Button type="submit" className="w-full cursor-pointer">
+              <Button
+                type="submit"
+                className="w-full cursor-pointer"
+                disabled={mutation.isPending}
+              >
+                {mutation.isPending && (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                )}
                 Crear cuenta
               </Button>
             </Field>

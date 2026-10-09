@@ -16,14 +16,21 @@ import {
 } from "@/application/components/ui/field";
 import { Input } from "@/application/components/ui/input";
 import { PasswordInput } from "@/application/components/ui/password-input";
-import { LockKeyhole } from "lucide-react";
-import { Link } from "react-router";
+import { LockKeyhole, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import {
   loginFormSchema,
   type LoginForm,
 } from "@/infrastructure/schemas/auth/auth";
+import { login } from "@/infrastructure/api/auth/auth";
+import { useAuthStore } from "@/application/stores/auth.store";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+  const setAuth = useAuthStore((state) => state.setAuth);
+
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -32,8 +39,20 @@ const LoginForm = () => {
     },
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: login,
+    onSuccess: ({ user, token }) => {
+      setAuth(user, token);
+      toast.success(`Bienvenido, ${user.fullName}`);
+      navigate("/dashboard");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
   const onSubmit = (data: LoginForm) => {
-    console.log({ data });
+    mutate(data);
   };
 
   return (
@@ -98,7 +117,14 @@ const LoginForm = () => {
             ></Controller>
 
             <Field>
-              <Button type="submit" className="w-full cursor-pointer">
+              <Button
+                type="submit"
+                className="w-full cursor-pointer"
+                disabled={isPending}
+              >
+                {isPending && (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                )}
                 Iniciar sesión
               </Button>
             </Field>
