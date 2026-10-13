@@ -18,7 +18,6 @@ export const login = async (formdata: LoginForm): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>(url, formdata);
 
     return response.data;
-
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(
@@ -40,13 +39,31 @@ export const register = async (
     const response = await api.post<AuthResponse>(url, formdata);
 
     return response.data;
-
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(
         error.response.data.error ||
           error.response.data.message ||
           "Error al registrar el usuario",
+      );
+    }
+    throw new Error("Error de conexión con el servidor");
+  }
+};
+
+export const getProfile = async (): Promise<AuthUser> => {
+  try {
+    const url = "/auth/profile";
+
+    const response = await api.get<AuthUser>(url);
+
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(
+        error.response.data.error ||
+          error.response.data.message ||
+          "Error al obtener el usuario",
       );
     }
     throw new Error("Error de conexión con el servidor");

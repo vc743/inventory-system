@@ -109,11 +109,18 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+
+/**
+ * TODO:
+ * - Revisar si la funcion necesita recibir un ID
+ * - Ver si se puede tipar la respuesta del API
+ * - Seguir con la parte 2 de la sesion en la terminal
+ */
 export const getProfile = async (req: Request, res: Response) => {
   try {
     const user = await userRepository.findOne({
       where: { id: req.userId },
-      select: ["id", "email", "fullName", "createdAt"],
+      select: ["id", "email", "fullName"],
     });
 
     if (!user) {
