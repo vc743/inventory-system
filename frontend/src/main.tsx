@@ -9,15 +9,18 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "./application/components/auth/AuthProvider";
+import { TooltipProvider } from "@/application/components/ui/tooltip";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Router />
-      </AuthProvider>
+      <TooltipProvider>
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
+      </TooltipProvider>
       <Toaster
         position="top-right"
         toastOptions={{
