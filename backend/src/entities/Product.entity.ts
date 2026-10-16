@@ -15,8 +15,8 @@ import { Alert } from "./Alert.entity";
 
 @Entity("products")
 export class Product {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ unique: true })
   sku: string;
@@ -40,10 +40,10 @@ export class Product {
   barcode: string;
 
   @Column()
-  categoryId: string;
+  categoryId: number;
 
   @Column()
-  userId: string;
+  userId: number;
 
   @CreateDateColumn()
   createdAt: Date;

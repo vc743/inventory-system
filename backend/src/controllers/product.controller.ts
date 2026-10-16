@@ -5,6 +5,7 @@ import { Category } from "../entities/Category.entity";
 import { Alert } from "../entities/Alert.entity";
 import { generateSKU } from "../utils/generateSKU";
 import { ILike } from "typeorm";
+import { parseId } from "../utils/parseId";
 
 const productRepository = AppDataSource.getRepository(Product);
 const categoryRepository = AppDataSource.getRepository(Category);
@@ -55,7 +56,11 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
 export const getProductById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if (id === null) {
+      return res.status(400).json({ error: "Invalid id" });
+    }
 
     const product = await productRepository.findOne({
       where: { id, userId: req.userId },
@@ -126,7 +131,7 @@ export const createProduct = async (req: Request, res: Response) => {
     await productRepository.save(product);
 
     // Crear alerta si el stock inicial ya es bajo
-    if (product.currentStock > product.minStock) {
+    if (product.currentStock <= product.minStock) {
       const alert = alertRepository.create({
         productId: product.id,
         userId: req.userId!,
@@ -149,7 +154,12 @@ export const createProduct = async (req: Request, res: Response) => {
 
 export const updateProduct = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if (id === null) {
+      return res.status(400).json({ error: "Invalid id" });
+    }
+
     const { name, description, price, minStock, categoryId, barcode } =
       req.body;
 
@@ -198,7 +208,11 @@ export const updateProduct = async (req: Request, res: Response) => {
 
 export const deleteProduct = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if (id === null) {
+      return res.status(400).json({ error: "Invalid id" });
+    }
 
     // Verificar que el producto existe y pertenece al usuario
     const product = await productRepository.findOne({

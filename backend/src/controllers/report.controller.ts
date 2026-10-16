@@ -129,7 +129,7 @@ export const getRecentMovements = async (req: Request, res: Response) => {
       type: m.type,
       quantity: m.quantity,
       reason: m.reason,
-      user: m.user.name
+      user: m.user.fullName
     }));
 
     res.json(formattedMovements);

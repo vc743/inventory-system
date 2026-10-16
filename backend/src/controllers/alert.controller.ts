@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../config/database";
 import { Alert } from "../entities/Alert.entity";
+import { parseId } from "../utils/parseId";
 
 const alertRepository = AppDataSource.getRepository(Alert);
 
@@ -50,7 +51,11 @@ export const getAllAlerts = async (req: Request, res: Response) => {
 
 export const getAlertById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if (id === null) {
+      return res.status(400).json({ error: "Invalid id" });
+    }
 
     const alert = await alertRepository.findOne({
       where: { id, userId: req.userId },
@@ -83,7 +88,11 @@ export const getAlertById = async (req: Request, res: Response) => {
 
 export const resolveAlert = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if (id === null) {
+      return res.status(400).json({ error: "Invalid id" });
+    }
 
     const alert = await alertRepository.findOne({
       where: { id, userId: req.userId },
@@ -140,7 +149,7 @@ export const getAlertStats = async (req: Request, res: Response) => {
     res.json({
       total: totalAlerts,
       active: activeAlerts,
-      resolved: resolveAlert,
+      resolved: resolvedAlerts,
     });
   } catch (error) {
     console.error("Get alert stats error:", error);
@@ -150,7 +159,11 @@ export const getAlertStats = async (req: Request, res: Response) => {
 
 export const deleteAlert = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if (id === null) {
+      return res.status(400).json({ error: "Invalid id" });
+    }
 
     const alert = await alertRepository.findOne({
       where: { id, userId: req.userId },

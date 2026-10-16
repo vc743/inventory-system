@@ -16,11 +16,11 @@ export enum MovementType {
 
 @Entity("movements")
 export class Movement {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
-  productId: string;
+  productId: number;
 
   @Column({
     type: "enum",
@@ -38,7 +38,7 @@ export class Movement {
   notes: string;
 
   @Column()
-  userId: string;
+  userId: number;
 
   @CreateDateColumn()
   createdAt: Date;

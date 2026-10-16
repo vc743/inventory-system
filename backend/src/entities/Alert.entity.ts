@@ -11,14 +11,14 @@ import { User } from "./User.entity";
 
 @Entity("alerts")
 export class Alert {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
-  productId: string;
+  productId: number;
 
   @Column()
-  userId: string;
+  userId: number;
 
   @Column({ default: false })
   isResolved: boolean;

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../config/database";
 import { Category } from "../entities/Category.entity";
+import { parseId } from "../utils/parseId";
 
 const categoryRepository = AppDataSource.getRepository(Category);
 
@@ -31,7 +32,11 @@ export const getAllCategories = async (req: Request, res: Response) => {
 
 export const getCategoryById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if ( id === null ) {
+      return res.status(400).json({ error: "Invalid id" })
+    }
 
     const category = await categoryRepository.findOne({
       where: { id, userId: req.userId },
@@ -73,7 +78,12 @@ export const createCategory = async (req: Request, res: Response) => {
 
 export const updateCategory = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if ( id === null ) {
+      return res.status(400).json({ error: "Invalid id" })
+    }
+
     const { name } = req.body;
 
     if (!name || name.trim() === "") {
@@ -101,7 +111,11 @@ export const updateCategory = async (req: Request, res: Response) => {
 
 export const deleteCategory = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if ( id === null ) {
+      return res.status(400).json({ error: "Invalid id" })
+    }
 
     // Verificar que la categoria pertenece al usuario
     const category = await categoryRepository.findOne({

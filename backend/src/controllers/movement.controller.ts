@@ -3,6 +3,7 @@ import { AppDataSource } from "../config/database";
 import { Movement, MovementType } from "../entities/Movement.entity";
 import { Product } from "../entities/Product.entity";
 import { Alert } from "../entities/Alert.entity";
+import { parseId } from "../utils/parseId";
 
 const movementRepository = AppDataSource.getRepository(Movement);
 const productRepository = AppDataSource.getRepository(Product);
@@ -12,7 +13,9 @@ export const getAllMovements = async (req: Request, res: Response) => {
   try {
     const { productId, type, startDate, endDate } = req.query;
 
-    const where: any = {};
+    const where: any = {
+      userId: req.userId,
+    };
 
     if (productId) {
       where.productId = productId;
@@ -63,7 +66,7 @@ export const getAllMovements = async (req: Request, res: Response) => {
       notes: movement.notes,
       user: {
         id: movement.user.id,
-        name: movement.user.name,
+        name: movement.user.fullName,
         email: movement.user.email,
       },
       createdAt: movement.createdAt,
@@ -78,7 +81,11 @@ export const getAllMovements = async (req: Request, res: Response) => {
 
 export const getMovementById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if (id === null) {
+      return res.status(400).json({ error: "Invalid id" });
+    }
 
     const movement = await movementRepository.findOne({
       where: { id },
@@ -110,7 +117,7 @@ export const getMovementById = async (req: Request, res: Response) => {
       notes: movement.notes,
       user: {
         id: movement.user.id,
-        name: movement.user.name,
+        name: movement.user.fullName,
         email: movement.user.email,
       },
       createdAt: movement.createdAt,
@@ -156,7 +163,7 @@ export const createMovement = async (req: Request, res: Response) => {
     } else {
       newStock = product.currentStock - parsedQuantity;
 
-      if (newStock <= 0) {
+      if (newStock < 0) {
         return res.status(400).json({
           error: "Insufficient stock",
           currentStock: product.currentStock,
@@ -248,7 +255,11 @@ export const createMovement = async (req: Request, res: Response) => {
 
 export const deleteMovement = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id as string;
+    const id = parseId(req.params.id as string);
+
+    if (id === null) {
+      return res.status(400).json({ error: "Invalid id" });
+    }
 
     const movement = await movementRepository.findOne({
       where: { id },
