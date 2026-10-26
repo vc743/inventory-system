@@ -104,7 +104,7 @@ const Sidebar = () => {
             type="button"
             onClick={logout}
             aria-label="Cerrar sesión"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:hidden"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:hidden cursor-pointer"
           >
             <LogOut className="h-4 w-4" />
           </button>

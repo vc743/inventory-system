@@ -19,6 +19,6 @@ export const userSchema = z.object({
   updatedAt: z.string(),
 });
 
-export type RegisterForm = z.infer<typeof registerFormSchema>;
-export type LoginForm = z.infer<typeof loginFormSchema>;
+export type RegisterFormType = z.infer<typeof registerFormSchema>;
+export type LoginFormType = z.infer<typeof loginFormSchema>;
 export type User = z.infer<typeof userSchema>;

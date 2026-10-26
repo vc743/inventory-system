@@ -22,7 +22,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import {
   loginFormSchema,
-  type LoginForm,
+  type LoginFormType,
 } from "@/infrastructure/schemas/auth/auth";
 import { login } from "@/infrastructure/api/auth/auth";
 import { useAuthStore } from "@/application/stores/auth.store";
@@ -31,7 +31,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
 
-  const form = useForm<LoginForm>({
+  const form = useForm<LoginFormType>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
@@ -51,7 +51,7 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (data: LoginForm) => {
+  const onSubmit = (data: LoginFormType) => {
     mutate(data);
   };
 

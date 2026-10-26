@@ -22,7 +22,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import {
   registerFormSchema,
-  type RegisterForm,
+  type RegisterFormType,
 } from "@/infrastructure/schemas/auth/auth";
 import { register } from "@/infrastructure/api/auth/auth";
 import { useAuthStore } from "@/application/stores/auth.store";
@@ -31,7 +31,7 @@ const RegisterForm = () => {
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
 
-  const form = useForm<RegisterForm>({
+  const form = useForm<RegisterFormType>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
       fullName: "",
@@ -52,7 +52,7 @@ const RegisterForm = () => {
     },
   });
 
-  const onSubmit = (data: RegisterForm) => {
+  const onSubmit = (data: RegisterFormType) => {
     mutation.mutate(data);
   };
 

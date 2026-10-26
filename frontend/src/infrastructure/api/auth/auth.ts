@@ -1,7 +1,7 @@
 import api from "@/infrastructure/api";
 import type {
-  LoginForm,
-  RegisterForm,
+  LoginFormType,
+  RegisterFormType,
 } from "@/infrastructure/schemas/auth/auth";
 import type { AuthUser } from "@/application/stores/auth.store";
 import { isAxiosError } from "axios";
@@ -11,7 +11,7 @@ interface AuthResponse {
   token: string;
 }
 
-export const login = async (formdata: LoginForm): Promise<AuthResponse> => {
+export const login = async (formdata: LoginFormType): Promise<AuthResponse> => {
   try {
     const url = "/auth/login";
 
@@ -31,7 +31,7 @@ export const login = async (formdata: LoginForm): Promise<AuthResponse> => {
 };
 
 export const register = async (
-  formdata: RegisterForm,
+  formdata: RegisterFormType,
 ): Promise<AuthResponse> => {
   try {
     const url = "/auth/register";
