@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "./application/components/auth/AuthProvider";
 import { TooltipProvider } from "@/application/components/ui/tooltip";
+import { NetworkStatus } from "@/application/components/networkStatus/NetworkStatus";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ createRoot(document.getElementById("root")!).render(
           },
         }}
       />
+      <NetworkStatus />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </StrictMode>,
