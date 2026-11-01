@@ -1,13 +1,3 @@
-import {
-  Box,
-  LayoutDashboard,
-  Package,
-  Tags,
-  ArrowLeftRight,
-  TriangleAlert,
-  FileBarChart,
-  LogOut,
-} from "lucide-react";
 import { Link, useLocation } from "react-router";
 import {
   Sidebar as SidebarPrimitive,
@@ -18,53 +8,34 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarFooter,
   SidebarTrigger,
   SidebarRail,
   useSidebar,
 } from "@/application/components/ui/sidebar";
-import { useAuthStore } from "@/application/stores/auth.store";
-
-const NAV_ITEMS = [
-  { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-  { label: "Productos", path: "/products", icon: Package },
-  { label: "Categorías", path: "/categories", icon: Tags },
-  { label: "Movimientos", path: "/movements", icon: ArrowLeftRight },
-  { label: "Alertas", path: "/alerts", icon: TriangleAlert },
-  { label: "Reportes", path: "/reports", icon: FileBarChart },
-];
+import { LogoSymbol } from "@/application/components/brand/Logo";
+import { NAV_ITEMS } from "@/application/config/navigation";
 
 const Sidebar = () => {
-  const user = useAuthStore((state) => state.user);
-  const logout = useAuthStore((state) => state.logout);
   const { pathname } = useLocation();
   const { setOpenMobile } = useSidebar();
 
-  const initials = user?.fullName
-    ?.split(" ")
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
-
   return (
     <SidebarPrimitive collapsible="icon">
-      <SidebarHeader>
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary">
-            <Box className="h-4.5 w-4.5 text-sidebar-primary-foreground" />
-          </div>
-          <span className="font-heading truncate text-lg font-semibold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
-            StockFlow
-          </span>
-          <SidebarTrigger className="ml-auto group-data-[collapsible=icon]:hidden" />
-        </div>
+      {/* Misma altura que la Topbar para que el borde inferior sea continuo. */}
+      <SidebarHeader className="h-14 flex-row items-center gap-2.5 border-b border-sidebar-border px-3.5 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
+        <Link to="/dashboard" aria-label="Ir al inicio" className="shrink-0">
+          <LogoSymbol className="size-7" />
+        </Link>
+        <span className="truncate font-brand text-xl font-bold tracking-tight text-primary group-data-[collapsible=icon]:hidden">
+          Stokio
+        </span>
+        <SidebarTrigger className="ml-auto group-data-[collapsible=icon]:hidden" />
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
+        <SidebarGroup className="pt-3">
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-1">
               {NAV_ITEMS.map((item) => (
                 <SidebarMenuItem key={item.path}>
                   <SidebarMenuButton
@@ -76,6 +47,7 @@ const Sidebar = () => {
                     }
                     isActive={pathname === item.path}
                     tooltip={item.label}
+                    className="data-active:bg-brand data-active:text-brand-foreground data-active:hover:bg-brand data-active:hover:text-brand-foreground"
                   >
                     <item.icon />
                     <span>{item.label}</span>
@@ -87,29 +59,6 @@ const Sidebar = () => {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sidebar-accent text-xs font-semibold text-sidebar-accent-foreground">
-            {initials}
-          </div>
-          <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
-            <p className="truncate text-sm font-medium text-sidebar-foreground">
-              {user?.fullName}
-            </p>
-            <p className="truncate text-xs text-sidebar-foreground/60">
-              {user?.email}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={logout}
-            aria-label="Cerrar sesión"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:hidden cursor-pointer"
-          >
-            <LogOut className="h-4 w-4" />
-          </button>
-        </div>
-      </SidebarFooter>
       <SidebarRail />
     </SidebarPrimitive>
   );

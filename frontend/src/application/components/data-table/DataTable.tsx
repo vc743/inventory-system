@@ -62,7 +62,10 @@ const DataTable = <TData extends RowData>({
                         : ArrowUpDown;
 
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      className="border-r bg-muted/50 px-4 last:border-r-0"
+                    >
                       {header.isPlaceholder ? null : header.column.getCanSort() ? (
                         <button
                           type="button"
@@ -86,7 +89,10 @@ const DataTable = <TData extends RowData>({
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
                   {row.getAllCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className="border-r px-4 py-2.5 last:border-r-0"
+                    >
                       <table.FlexRender cell={cell} />
                     </TableCell>
                   ))}
