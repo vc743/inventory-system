@@ -3,18 +3,24 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/montserrat";
+@import "@fontsource-variable/space-grotesk";
 
 @custom-variant dark (&:is(.dark *));
 
 /*
-  Design system
-  Warm-neutral surface + near-black primary + emerald brand accent.
-  Semantic status colors (brand/success/warning/danger/info) power
-  badges, pills and data-viz across the whole app, not just auth.
+  Design system — paleta Stokio
+  Marino   #16213A  principal: botones, menú, foco
+  Amarillo #FFC83D  acento de marca: logo, selección. Solo como relleno,
+                    nunca como texto sobre fondos claros (no contrasta).
+  Crema    #F8F7F4  fondo
+  Tinta    #1A1614  texto
+  Gris     #6B655F  texto secundario
+  Borde    #E6E2DC  bordes y divisores
 */
 @theme inline {
   --font-heading: "Montserrat Variable", sans-serif;
   --font-sans: "Geist Variable", sans-serif;
+  --font-brand: "Space Grotesk Variable", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -73,58 +79,60 @@
 }
 
 :root {
-  /* Warm off-white surface, near-black text — cards stay pure white
-       so they lift off the tinted background like elevated panels. */
-  --background: oklch(0.975 0.004 85);
-  --foreground: oklch(0.2 0.008 60);
+  /* Fondo crema; las tarjetas quedan blancas para separarse del fondo. */
+  --background: oklch(0.976 0.004 91.4); /* crema */
+  --foreground: oklch(0.204 0.008 48.3); /* tinta */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.008 60);
+  --card-foreground: oklch(0.204 0.008 48.3);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.008 60);
-  --primary: oklch(0.2 0.008 60);
-  --primary-foreground: oklch(0.99 0.002 85);
-  --secondary: oklch(0.96 0.006 80);
-  --secondary-foreground: oklch(0.25 0.008 60);
-  --muted: oklch(0.96 0.006 80);
-  --muted-foreground: oklch(0.52 0.012 60);
-  --accent: oklch(0.955 0.025 152);
-  --accent-foreground: oklch(0.28 0.06 152);
-  --destructive: oklch(0.6 0.21 25);
-  --border: oklch(0.91 0.007 75);
-  --input: oklch(0.91 0.007 75);
-  --ring: oklch(0.64 0.16 152);
-  --chart-1: oklch(0.64 0.16 152);
-  --chart-2: oklch(0.7 0.14 220);
-  --chart-3: oklch(0.75 0.14 70);
-  --chart-4: oklch(0.62 0.19 25);
-  --chart-5: oklch(0.5 0.01 60);
-  --radius: 0.75rem;
+  --popover-foreground: oklch(0.204 0.008 48.3);
+  --primary: oklch(0.251 0.05 265); /* marino */
+  --primary-foreground: oklch(0.976 0.004 91.4);
+  --secondary: oklch(0.944 0.007 80.7);
+  --secondary-foreground: oklch(0.204 0.008 48.3);
+  --muted: oklch(0.944 0.007 80.7);
+  --muted-foreground: oklch(0.51 0.012 67.6); /* gris cálido */
+  --accent: oklch(0.944 0.007 80.7);
+  --accent-foreground: oklch(0.204 0.008 48.3);
+  --destructive: oklch(0.58 0.2 27);
+  --border: oklch(0.914 0.009 78.3); /* borde */
+  --input: oklch(0.914 0.009 78.3);
+  /* El foco es marino: el amarillo no llega al contraste mínimo sobre claro. */
+  --ring: oklch(0.251 0.05 265);
+  --chart-1: oklch(0.251 0.05 265);
+  --chart-2: oklch(0.859 0.158 85.8);
+  --chart-3: oklch(0.51 0.012 67.6);
+  --chart-4: oklch(0.55 0.08 255);
+  --chart-5: oklch(0.82 0.01 78);
+  --radius: 0.5rem; /* Estilo Midday: esquinas discretas */
 
-  /* Brand: emerald — used for focus rings, links, active states */
-  --brand: oklch(0.64 0.16 152);
-  --brand-foreground: oklch(0.32 0.08 152);
+  /* Marca: amarillo como relleno, marino para el texto encima. */
+  --brand: oklch(0.859 0.158 85.8);
+  --brand-foreground: oklch(0.251 0.05 265);
 
   --success: oklch(0.64 0.16 152);
   --success-foreground: oklch(0.32 0.08 152);
-  --warning: oklch(0.79 0.14 75);
-  --warning-foreground: oklch(0.4 0.11 60);
+  /* Ámbar más anaranjado que el amarillo de marca para no confundirlos. */
+  --warning: oklch(0.72 0.16 55);
+  --warning-foreground: oklch(0.42 0.12 45);
   --danger: oklch(0.68 0.19 22);
   --danger-foreground: oklch(0.42 0.17 22);
   --info: oklch(0.7 0.12 233);
   --info-foreground: oklch(0.4 0.11 240);
 
-  --shadow-card:
-    0 1px 2px oklch(0.2 0.02 60 / 0.04),
-    0 14px 28px -12px oklch(0.2 0.02 60 / 0.12);
+  /* Sin sombras: la separación la dan los bordes. */
+  --shadow-card: none;
 
-  --sidebar: oklch(0.985 0.003 85);
-  --sidebar-foreground: oklch(0.2 0.008 60);
-  --sidebar-primary: oklch(0.2 0.008 60);
-  --sidebar-primary-foreground: oklch(0.99 0.002 85);
-  --sidebar-accent: oklch(0.955 0.025 152);
-  --sidebar-accent-foreground: oklch(0.28 0.06 152);
-  --sidebar-border: oklch(0.91 0.007 75);
-  --sidebar-ring: oklch(0.64 0.16 152);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.204 0.008 48.3);
+  --sidebar-primary: oklch(0.251 0.05 265);
+  --sidebar-primary-foreground: oklch(0.976 0.004 91.4);
+  /* Hover neutro. El ítem activo usa bg-brand (amarillo) desde Sidebar.tsx,
+     para que pasar el mouse no parezca una selección. */
+  --sidebar-accent: oklch(0.944 0.007 80.7);
+  --sidebar-accent-foreground: oklch(0.204 0.008 48.3);
+  --sidebar-border: oklch(0.914 0.009 78.3);
+  --sidebar-ring: oklch(0.251 0.05 265);
 }
 
 .dark {

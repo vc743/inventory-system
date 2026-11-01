@@ -73,10 +73,6 @@ const AuthCarousel = () => {
       {/* Degradado para que el texto se lea sobre cualquier foto. */}
       <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-black/30" />
 
-      <span className="absolute top-8 left-8 font-heading text-lg font-semibold text-white">
-        StockFlow
-      </span>
-
       <div className="absolute inset-x-8 bottom-8 flex items-end justify-between gap-8">
         {/* La key fuerza a React a remontar el bloque y repetir la entrada. */}
         <figure key={index} className="max-w-md animate-stagger-in">
