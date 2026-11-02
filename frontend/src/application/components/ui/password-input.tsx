@@ -21,7 +21,7 @@ function PasswordInput({
         tabIndex={-1}
         onClick={() => setVisible((v) => !v)}
         aria-label={visible ? "Ocultar contraseña" : "Mostrar contraseña"}
-        className="absolute right-0 top-0 flex h-8 w-8 cursor-pointer items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
+        className="absolute right-0 top-0 flex size-9 cursor-pointer items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
       >
         {visible ? (
           <EyeOff className="size-3.5" />
