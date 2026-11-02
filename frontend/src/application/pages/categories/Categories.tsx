@@ -46,7 +46,7 @@ export const Categories = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-semibold tracking-tight">Categorías</h1>
           <p className="text-sm text-muted-foreground">
@@ -60,10 +60,7 @@ export const Categories = () => {
       </div>
 
       {isPending ? (
-        <div className="flex flex-col gap-4">
-          <Skeleton className="h-8 max-w-sm" />
-          <Skeleton className="h-64 rounded-xl" />
-        </div>
+        <Skeleton className="h-72 rounded-xl" />
       ) : isError ? (
         <div className="flex flex-col items-center gap-3 rounded-xl border bg-card py-12 text-center shadow-card">
           <p className="text-sm text-muted-foreground">{error.message}</p>
@@ -74,9 +71,11 @@ export const Categories = () => {
       ) : (
         <DataTable
           columns={columns}
+          // defaultPageSize={1}
           data={data ?? EMPTY}
           searchPlaceholder="Buscar categoría..."
           emptyMessage="Aún no tienes categorías. Crea la primera."
+          itemLabel="categorías"
         />
       )}
 

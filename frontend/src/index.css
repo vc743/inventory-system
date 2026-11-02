@@ -12,10 +12,8 @@
   Marino   #16213A  principal: botones, menú, foco
   Amarillo #FFC83D  acento de marca: logo, selección. Solo como relleno,
                     nunca como texto sobre fondos claros (no contrasta).
-  Crema    #F8F7F4  fondo
-  Tinta    #1A1614  texto
-  Gris     #6B655F  texto secundario
-  Borde    #E6E2DC  bordes y divisores
+  Neutros fríos (gris azulado) para fondo, bordes y texto secundario;
+  el texto principal es marino.
 */
 @theme inline {
   --font-heading: "Montserrat Variable", sans-serif;
@@ -79,32 +77,33 @@
 }
 
 :root {
-  /* Fondo crema; las tarjetas quedan blancas para separarse del fondo. */
-  --background: oklch(0.976 0.004 91.4); /* crema */
-  --foreground: oklch(0.204 0.008 48.3); /* tinta */
+  /* Grises fríos (tono azulado, como el marino) en vez del crema.
+     El fondo es gris muy claro y las tarjetas blancas se separan de él. */
+  --background: oklch(0.982 0.003 264); /* #F8F9FB */
+  --foreground: oklch(0.251 0.05 265); /* marino: títulos y texto */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.204 0.008 48.3);
+  --card-foreground: oklch(0.251 0.05 265);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.204 0.008 48.3);
+  --popover-foreground: oklch(0.251 0.05 265);
   --primary: oklch(0.251 0.05 265); /* marino */
-  --primary-foreground: oklch(0.976 0.004 91.4);
-  --secondary: oklch(0.944 0.007 80.7);
-  --secondary-foreground: oklch(0.204 0.008 48.3);
-  --muted: oklch(0.944 0.007 80.7);
-  --muted-foreground: oklch(0.51 0.012 67.6); /* gris cálido */
-  --accent: oklch(0.944 0.007 80.7);
-  --accent-foreground: oklch(0.204 0.008 48.3);
+  --primary-foreground: oklch(0.985 0.002 264);
+  --secondary: oklch(0.967 0.004 264);
+  --secondary-foreground: oklch(0.251 0.05 265);
+  --muted: oklch(0.967 0.004 264); /* encabezado de tablas, badges neutros */
+  --muted-foreground: oklch(0.52 0.03 260); /* gris pizarra, 5:1 sobre blanco */
+  --accent: oklch(0.967 0.004 264);
+  --accent-foreground: oklch(0.251 0.05 265);
   --destructive: oklch(0.58 0.2 27);
-  --border: oklch(0.914 0.009 78.3); /* borde */
-  --input: oklch(0.914 0.009 78.3);
+  --border: oklch(0.928 0.006 264);
+  --input: oklch(0.9 0.008 264);
   /* El foco es marino: el amarillo no llega al contraste mínimo sobre claro. */
   --ring: oklch(0.251 0.05 265);
   --chart-1: oklch(0.251 0.05 265);
   --chart-2: oklch(0.859 0.158 85.8);
-  --chart-3: oklch(0.51 0.012 67.6);
+  --chart-3: oklch(0.52 0.03 260);
   --chart-4: oklch(0.55 0.08 255);
-  --chart-5: oklch(0.82 0.01 78);
-  --radius: 0.5rem; /* Estilo Midday: esquinas discretas */
+  --chart-5: oklch(0.85 0.01 264);
+  --radius: 0.5rem;
 
   /* Marca: amarillo como relleno, marino para el texto encima. */
   --brand: oklch(0.859 0.158 85.8);
@@ -120,18 +119,19 @@
   --info: oklch(0.7 0.12 233);
   --info-foreground: oklch(0.4 0.11 240);
 
-  /* Sin sombras: la separación la dan los bordes. */
-  --shadow-card: none;
+  /* Sombra apenas perceptible para despegar las tarjetas del fondo. */
+  --shadow-card: 0 1px 2px oklch(0.251 0.05 265 / 0.05),
+    0 1px 3px oklch(0.251 0.05 265 / 0.04);
 
   --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.204 0.008 48.3);
+  --sidebar-foreground: oklch(0.251 0.05 265);
   --sidebar-primary: oklch(0.251 0.05 265);
-  --sidebar-primary-foreground: oklch(0.976 0.004 91.4);
+  --sidebar-primary-foreground: oklch(0.985 0.002 264);
   /* Hover neutro. El ítem activo usa bg-brand (amarillo) desde Sidebar.tsx,
      para que pasar el mouse no parezca una selección. */
-  --sidebar-accent: oklch(0.944 0.007 80.7);
-  --sidebar-accent-foreground: oklch(0.204 0.008 48.3);
-  --sidebar-border: oklch(0.914 0.009 78.3);
+  --sidebar-accent: oklch(0.967 0.004 264);
+  --sidebar-accent-foreground: oklch(0.251 0.05 265);
+  --sidebar-border: oklch(0.928 0.006 264);
   --sidebar-ring: oklch(0.251 0.05 265);
 }
 
@@ -220,6 +220,12 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* Tailwind v4 deja los botones con cursor por defecto. Mano en todo lo
+     clicable, salvo si está deshabilitado. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
   }
   html {
     @apply font-sans;

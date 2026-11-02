@@ -1,13 +1,5 @@
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import { Button } from "@/application/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/application/components/ui/dropdown-menu";
+import { Pencil, Trash2 } from "lucide-react";
+import ActionButton from "@/application/components/data-table/ActionButton";
 import { createAppColumnHelper } from "@/application/components/data-table/table-hook";
 import type { CategoryListItemType } from "@/infrastructure/schemas/category/category";
 
@@ -39,7 +31,7 @@ export const createCategoryColumns = ({
       ),
     }),
     columnHelper.accessor("createdAt", {
-      header: "Creada",
+      header: "Fecha de creación",
       enableGlobalFilter: false,
       cell: (info) => (
         <span className="text-muted-foreground">
@@ -49,39 +41,24 @@ export const createCategoryColumns = ({
     }),
     columnHelper.display({
       id: "actions",
+      header: () => <div className="text-right">Acciones</div>,
       cell: ({ row }) => (
-        <div className="flex justify-end">
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label={`Acciones para ${row.original.name}`}
-                />
-              }
-            >
-              <MoreHorizontal />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40">
-              <DropdownMenuGroup>
-                <DropdownMenuItem onClick={() => onEdit(row.original)}>
-                  <Pencil />
-                  Editar
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem
-                  variant="destructive"
-                  onClick={() => onDelete(row.original)}
-                >
-                  <Trash2 />
-                  Eliminar
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className="flex justify-end gap-1">
+          <ActionButton
+            label="Editar"
+            ariaLabel={`Editar ${row.original.name}`}
+            onClick={() => onEdit(row.original)}
+          >
+            <Pencil />
+          </ActionButton>
+          <ActionButton
+            label="Eliminar"
+            ariaLabel={`Eliminar ${row.original.name}`}
+            onClick={() => onDelete(row.original)}
+            className="hover:bg-destructive/10 hover:text-destructive"
+          >
+            <Trash2 />
+          </ActionButton>
         </div>
       ),
     }),
