@@ -12,7 +12,7 @@ import { PasswordInput } from "@/application/components/ui/password-input";
 import { Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import {
   loginFormSchema,
   type LoginFormType,

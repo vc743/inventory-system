@@ -1,6 +1,6 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import settings from "./settings";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 const api = axios.create({
   baseURL: settings.baseApi,
