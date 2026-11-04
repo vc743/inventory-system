@@ -1,4 +1,5 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
+import { useAuthStore } from "@/application/stores/auth.store";
 import settings from "./settings";
 import { toast } from "sonner";
 
@@ -27,61 +28,19 @@ api.interceptors.request.use(
   },
 );
 
-//Interceptor de Response el cual maneja errores globales
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    if (error.response) {
-      const status = error.response.status;
-      const data = error.response.data as any;
+    const status = error.response?.status;
+    const sentToken = error.config?.headers.Authorization;
 
-      switch (status) {
-        case 401:
-          //Token invalido o expirado
-          localStorage.removeItem(settings.tokenKey);
-          toast.error("Sesión expirada. Por favor, inicia sesión nuevamente.");
-
-          if (!window.location.pathname.includes("/login")) {
-            window.location.href = "/login";
-          }
-          break;
-
-        case 403:
-          toast.error("No tienes permisos para realizar esta accion.");
-          break;
-
-        case 404:
-          toast.error(data?.error || "Recurso no encontrado.");
-          break;
-
-        case 400:
-          //Errores de validacion
-          if (data?.details && Array.isArray(data.details)) {
-            data.details.forEach((detail: string) => {
-              toast.error(detail);
-            });
-          } else {
-            toast.error(data?.error || "Datos invalidos.");
-          }
-          break;
-
-        case 500:
-          toast.error("Error del servidor. Por favor, intenta mas tarde.");
-          break;
-
-        default:
-          toast.error(data?.error || "Ocurrio un error inesperado");
-      }
-    } else if (error.request) {
-      //En caso que no haya respuesta del servidor
-      toast.error("No se pudo conectar con el servidor.");
-    } else {
-      //Error en la configuracion de la peticion
-      toast.error("Error al procesar la solicitud");
+    if (status === 401 && sentToken) {
+      useAuthStore.getState().logout();
+      toast.error("Tu sesión expiró. Inicia sesión de nuevo.");
     }
 
     return Promise.reject(error);
-  },
+  }
 );
 
 export default api;
